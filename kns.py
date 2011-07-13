@@ -1,3 +1,11 @@
+#####################################################
+# KNS-Python
+#
+# A library for building Python endpoints to the
+# Kinetic Event Architecture system. Provides a
+# method for raising events and handling directives.
+#####################################################
+
 import urllib, urllib2, json, string
 
 server = "http://cs.kobj.net/blue/"
@@ -18,6 +26,8 @@ def raise_event(domain, event, ruleset, params, callback, dev=False):
     handle_directives(response, callback)
     return response
 
+# Iterates over the directives returned, calling the callback function
+# for each and passing along the options accompanying that directive
 def handle_directives(response, callback):
     # Call the callback for each directive
     for directive in response["directives"]:
