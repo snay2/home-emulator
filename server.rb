@@ -11,7 +11,7 @@ get '/thermostat/:temp' do
         puts "Thermostat now #{temp}. Was #{settings.thermostat}."
         set :thermostat, temp
     end
-    return '{"temperature": #{settings.thermostat}}'
+    return "{\"temperature\": #{settings.thermostat}}"
 end
 
 # Set the volume of the stereo
@@ -21,6 +21,6 @@ get '/stereo_volume/:level' do
         puts "Stereo level now #{level}. Was #{settings.stereo_volume}."
         set :stereo_volume, level
     end
-    return '{"stereo_volume": #{settings.stereo_volume}}'
+    return "{\"stereo_volume\": #{settings.stereo_volume}}"
 end
 
