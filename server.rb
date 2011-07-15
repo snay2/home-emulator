@@ -2,7 +2,9 @@ require 'sinatra'
 
 # Default values for the state
 set :thermostat, 75
-set :stereo_volume, 0
+set :media_volume, 0
+set :light_level, 10
+set :media_state, 'stop'
 
 # Set the temperature of the thermostat
 get '/thermostat/:temp' do
@@ -14,13 +16,27 @@ get '/thermostat/:temp' do
     return "{\"temperature\": #{settings.thermostat}}"
 end
 
-# Set the volume of the stereo
-get '/stereo_volume/:level' do
+# Set the volume of the sound system
+get '/media_volume/:level' do
     level = params[:level].to_i
     if level >= 0 and level <= 25 then
-        puts "Stereo level now #{level}. Was #{settings.stereo_volume}."
-        set :stereo_volume, level
+        puts "Sound system volume now #{level}. Was #{settings.media_volume}."
+        set :media_volume, level
     end
-    return "{\"stereo_volume\": #{settings.stereo_volume}}"
+    return "{\"media_volume\": #{settings.media_volume}}"
 end
+
+# Media state (DVD player, stereo, etc.)
+get '/media_state/:state' do
+    state = params[:state]
+    if state == "play" or state == "pause" or state == "stop" then
+        puts "Media state is now #{state}. Was #{settings.media_state}."
+        set :media_state, state
+    end
+    return "{\"media_state\": #{settings.media_state}}"
+end
+get '/media_state' do
+    return "{\"media_state\": #{settings.media_state}}"
+end
+
 
