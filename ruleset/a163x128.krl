@@ -16,17 +16,29 @@ ruleset a163x128 {
         set_thermostat = defaction(temp) {
             http:get(app:tunnel + "thermostat/#{temp}");
         };
+        get_thermostat = function() {
+            http:get(app:tunnel + "thermostat").pick("content").decode().pick("temperature");
+        };
 
         set_volume = defaction(level) {
             http:get(app:tunnel + "media_volume/#{level}");
+        };
+        get_volume = function() {
+            http:get(app:tunnel + "media_volume").pick("content").decode().pick("media_volume");
         };
         
         set_light_level = defaction(level) {
             http:get(app:tunnel + "light_level/#{level}");
         };
+        get_light_level = function() {
+            http:get(app:tunnel + "light_level").pick("content").decode().pick("light_level");
+        };
         
         set_media_state = defaction(state) {
             http:get(app:tunnel + "media_state/#{state}");
+        };
+        get_media_state = function() {
+            http:get(app:tunnel + "media_state").pick("content").decode().pick("media_state");
         };
 	}
     
@@ -43,6 +55,23 @@ ruleset a163x128 {
         }
     }
 
+    rule test {
+        select when pageview ".*"
+        pre {
+            temperature = get_thermostat();
+            volume = get_volume();
+            light_level = get_light_level();
+            media_state = get_media_state();
+            msg = <<
+                <strong>Temperature:</strong> #{temperature}<br />
+                <strong>Volume:</strong> #{volume}<br />
+                <strong>Light level:</strong> #{light_level}<br />
+                <strong>Media state:</strong> #{media_state}<br />
+            >>;
+        }
+        notify("Current home state", msg) with sticky=true;
+    }
+    
 	rule set_thermostat {
 		select when pageview "ktest.heroku.com/a163x128/temp/(\d{2})" setting (temp)
 		set_thermostat(temp);
