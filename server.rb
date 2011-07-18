@@ -33,10 +33,21 @@ get '/media_state/:state' do
         puts "Media state is now #{state}. Was #{settings.media_state}."
         set :media_state, state
     end
-    return "{\"media_state\": #{settings.media_state}}"
+    return "{\"media_state\": \"#{settings.media_state}\"}"
 end
 get '/media_state' do
-    return "{\"media_state\": #{settings.media_state}}"
+    return "{\"media_state\": \"#{settings.media_state}\"}"
 end
 
-
+# Light level
+get '/light_level/:level' do
+    level = params[:level].to_i
+    if level >= 0 and level <= 10 then
+        puts "Light level now #{level}. Was #{settings.light_level}."
+        set :light_level, level
+    end
+    return "{\"light_level\": #{settings.light_level}}"
+end
+get '/light_level' do
+    return "{\"light_level\": #{settings.light_level}}"
+end
