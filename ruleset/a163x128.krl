@@ -6,6 +6,8 @@ ruleset a163x128 {
 		>>
 		author "Steve Nay and Reed Allred"
 		logging off
+        
+        use module a8x157 alias webhook
 	}
 
 	dispatch {}
@@ -18,14 +20,24 @@ ruleset a163x128 {
         set_volume = defaction(level) {
             http:get(app:tunnel + "media_volume/#{level}");
         };
+        
+        set_light_level = defaction(level) {
+            http:get(app:tunnel + "light_level/#{level}");
+        };
+        
+        set_media_state = defaction(state) {
+            http:get(app:tunnel + "media_state/#{state}");
+        };
 	}
     
+    // This works dynamically with my forked version of localtunnel so that the ruleset is notified
+    // each time the tunnel URL changes.
     rule set_tunnel {
         select when webhook set_tunnel
         pre {
             tunnel = "http://" + event:param("tunnel") + "/";
         }
-        send_directive("updated_tunnel_url") with tunnel=tunnel;
+        webhook:text(tunnel);
         fired {
             set app:tunnel tunnel;
         }
