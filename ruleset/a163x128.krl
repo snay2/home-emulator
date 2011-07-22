@@ -91,7 +91,7 @@ ruleset a163x128 {
     }
     
     rule incoming_call {
-        select when phone incoming
+        select when phone incoming_call
         pre {
             media_state = get_media_state();
             new_media_state = (media_state eq "play") => "pause" | media_state;
