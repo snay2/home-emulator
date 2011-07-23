@@ -3,8 +3,8 @@ require 'sinatra'
 # Default values for the state
 set :thermostat, 75
 set :media_volume, 0
-set :light_level, 10
-set :media_state, 'stop'
+set :light_level, 1
+set :media_state, 'play'
 
 # Temperature of the thermostat
 get '/thermostat/:temp' do
