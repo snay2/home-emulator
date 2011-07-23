@@ -111,7 +111,7 @@ ruleset a163x128 {
     rule call_finished {
         select when phone hung_up
         {
-            set_media_state(app:restore_media_state);
+            set_media_state(app:prev_media_state);
             set_light_level(app:prev_light_level);
         }
         fired {
