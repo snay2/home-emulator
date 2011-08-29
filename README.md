@@ -6,3 +6,6 @@ A home automation emulator that uses the Kinetic Event Architecture model for ra
 - Set up a localtunnel (see http://www.twilio.com/engineering/2011/06/06/making-a-local-web-server-public-with-localtunnel/) to forward port 4567 so it's publicly accessible to KNS: `localtunnel 4567`
 - Run `raise-events.py`. This will raise the `coming_home` event to KNS. The ruleset responds with two directives to the server. You should see these reflected in the Sinatra log.
 
+# Arduino sketches
+We started implementing this project in hardware using Arduino. Some of the sketches will use the Ethernet shield, but most will use the WiFly shield, as we ultimately want the device to work wirelessly.
+
